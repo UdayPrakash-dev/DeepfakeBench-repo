@@ -1,7 +1,40 @@
-﻿.idea
-*__pycache__*
-*.vscode*
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
 *.pyc
+.ipynb_checkpoints/
+.env
+
+# Model weights and checkpoints (download separately; see README)
 *.pth
 *.pt
 *.dat
+training/weights/
+
+# Datasets and anything derived from them (host on Hugging Face / Kaggle instead)
+/datasets/*
+!/datasets/readme.md
+*.tar
+*.zip
+*.npy
+*.npz
+*.pickle
+
+# Run outputs
+logs/
+*.log
+nohup.out
+wandb/
+runs/
+
+# Local scratch and backups
+*.orig
+*.full
+*.bak
+push.py
+testing.py
