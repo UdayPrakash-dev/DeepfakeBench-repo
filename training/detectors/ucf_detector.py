@@ -107,7 +107,8 @@ class UCFDetector(AbstractDetector):
             if 'pointwise' in name:
                 state_dict[name] = weights.unsqueeze(-1).unsqueeze(-1)
         state_dict = {k:v for k, v in state_dict.items() if 'fc' not in k}
-        backbone.load_state_dict(state_dict, False)
+        _res = backbone.load_state_dict(state_dict, False)
+        logger.info(f'[ckpt-check] loaded={len(state_dict)-len(_res.unexpected_keys)}/{len(state_dict)} pretrained tensors; missing={len(_res.missing_keys)} {_res.missing_keys[:4]}; unexpected={len(_res.unexpected_keys)} {_res.unexpected_keys[:4]}')
         logger.info('Load pretrained model successfully!')
         return backbone
     
@@ -260,7 +261,7 @@ class UCFDetector(AbstractDetector):
             self.correct += correct
             self.total += data_dict['label'].size(0)
 
-            pred_dict = {'cls': out_sha, 'feat': sha_feat}
+            pred_dict = {'cls': out_sha, 'prob': prob_sha, 'feat': sha_feat}
             return  pred_dict
 
         bs = f_share.size(0)
